@@ -1,0 +1,21 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/testrail-openapi.yml
+summary:
+  types:
+  - http
+schemes:
+- name: basicAuth
+  type: http
+  scheme: basic
+  description: >-
+    HTTP Basic authentication. The username is your TestRail email address; the
+    password is either your account password or an API key generated under My
+    Settings. Sent as `Authorization: Basic base64(email:api_key)`, for example
+    `curl -u "user@example.com:APIkey"`. All requests and responses are JSON
+    (`Content-Type: application/json`). The API must be enabled by an
+    administrator under Administration > Site Settings > API ("Enable API").
+    API keys can be revoked at any time under My Settings.
+  sources:
+  - openapi/testrail-openapi.yml
+  - https://support.testrail.com/hc/en-us/articles/7077039051284-Accessing-the-TestRail-API

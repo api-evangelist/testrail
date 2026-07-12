@@ -1,0 +1,71 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: TestRail
+providerId: testrail
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Test Management
+- QA
+- Testing
+- Rate Limiting
+- Quotas
+- Throttling
+description: >-
+  TestRail Cloud rate-limits the API to protect shared performance. Published
+  limits are approximately 180 requests per minute on TestRail Professional
+  Cloud and 300 requests per minute on TestRail Enterprise Cloud. When a client
+  exceeds the limit, the API returns HTTP 429 Too Many Requests with a
+  Retry-After header indicating how many seconds to wait before retrying.
+  Self-hosted TestRail Server / Enterprise installations do not impose built-in
+  API rate limits - throughput is bounded by the customer's own infrastructure.
+  To stay under Cloud limits, TestRail recommends using bulk endpoints (for
+  example add_results_for_cases instead of many add_result calls), adding a
+  delay between calls, and upgrading to Enterprise Cloud for a higher ceiling.
+notes: >-
+  Numeric limits reflect TestRail's published guidance (Professional Cloud
+  ~180 req/min, Enterprise Cloud ~300 req/min) and may change; verify current
+  values in TestRail's error-handling documentation on reconciliation. Bulk GET
+  endpoints additionally cap at 250 records per response (limit 1-250, paged
+  with offset).
+sources:
+- https://support.testrail.com/hc/en-us/articles/7077175066388-Error-handling
+- https://support.testrail.com/hc/en-us/articles/7077083596436-Introduction-to-the-TestRail-API
+- https://www.testrail.com/pricing/
+responseCodes:
+  throttled: 429
+limits:
+- name: Professional Cloud API Requests
+  scope: instance
+  metric: requests
+  limit: ~180 per minute
+  notes: TestRail Professional Cloud published request-rate limit.
+- name: Enterprise Cloud API Requests
+  scope: instance
+  metric: requests
+  limit: ~300 per minute
+  notes: TestRail Enterprise Cloud published request-rate limit (higher ceiling).
+- name: Self-Hosted (Server / Enterprise)
+  scope: deployment
+  metric: requests
+  limit: none built-in
+  notes: No API rate limit is enforced by TestRail Server; bounded by your own infrastructure.
+- name: Bulk GET Page Size
+  scope: endpoint
+  metric: records
+  limit: 250 per response
+  notes: Bulk get_ endpoints return up to 250 records; use limit (1-250) and offset to page.
+policies:
+- name: Retry-After
+  description: 429 responses include a Retry-After header with the number of seconds to wait before the next request is allowed.
+- name: Prefer Bulk Endpoints
+  description: Use bulk endpoints (add_results_for_cases, add_results) instead of many single-record calls to reduce request volume.
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on 429 responses.
+- name: Upgrade Tier
+  description: TestRail Enterprise Cloud raises the per-minute request ceiling relative to Professional Cloud.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

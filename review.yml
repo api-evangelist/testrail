@@ -1,0 +1,118 @@
+aid: testrail
+name: TestRail
+review:
+  question: Does TestRail expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-11'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. TestRail's public API (v2) is
+    request/response REST over HTTPS, routed through the index.php front
+    controller (index.php?/api/v2/...). There is no server-push transport -
+    no WebSocket and no Server-Sent Events - on TestRail's own API to model.
+    TestRail can send outbound webhooks (HTTP POST) on events, but that is a
+    server-to-endpoint HTTP callback, not a WebSocket, and is configured per
+    instance rather than being a client-consumable streaming API.
+findings:
+  summary: |
+    TestRail does not publish a documented public WebSocket API. TestRail is a
+    web-based test case management / QA platform (originally Gurock, now IDERA).
+    Its programmatic surface is the TestRail API v2, a pure request/response
+    REST API over HTTPS. Every call is routed through the index.php front
+    controller, so the base is https://{instance}.testrail.io/index.php?/api/v2/
+    and a method looks like GET /index.php?/api/v2/get_run/1. Authentication is
+    HTTP Basic (email plus password or API key). The API runs against your own
+    instance - TestRail Cloud (per-customer host) or self-hosted TestRail Server
+    / Enterprise - not a single shared public endpoint. No realtime,
+    bidirectional, or streaming WebSocket (ws:// or wss://) endpoint is
+    documented anywhere in the TestRail API reference.
+  hostModel: |
+    TestRail is a per-instance product, not one shared public API host. TestRail
+    Cloud instances are at https://{instance}.testrail.io (older Cloud instances
+    at .testrail.com); self-hosted TestRail Server / Enterprise runs on the
+    customer's own host. The catalog uses the {instance} placeholder in baseURL
+    values because there is no live shared endpoint.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://{instance}.testrail.io/index.php?/api/v2
+      documented: true
+      note: >-
+        TestRail API v2. All methods are HTTPS REST routed through index.php with
+        the ?/api/v2/ query-string prefix. HTTP Basic auth (email + password or
+        API key).
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: >-
+        TestRail can POST to a configured HTTP endpoint on events. Outbound
+        server-to-endpoint HTTP callback, not a WebSocket, and not a
+        client-consumable streaming API.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: >-
+        No WebSocket endpoint is documented anywhere in the TestRail API
+        reference as of the review date.
+  urlStyleNote: >-
+    The distinctive index.php?/api/v2/ URL style is intentional. TestRail routes
+    all API calls through its index.php front controller; the ?/api/v2/get_run/1
+    portion is a rewritten query string that TestRail treats as the API path. It
+    is honestly unusual for a REST API but is the correct, documented invocation.
+  endpointsConfirmedRest:
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_projects
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_project/{project_id}
+    - POST https://{instance}.testrail.io/index.php?/api/v2/add_project
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_suites/{project_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_sections/{project_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_cases/{project_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_case/{case_id}
+    - POST https://{instance}.testrail.io/index.php?/api/v2/add_case/{section_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_runs/{project_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_run/{run_id}
+    - POST https://{instance}.testrail.io/index.php?/api/v2/add_run/{project_id}
+    - POST https://{instance}.testrail.io/index.php?/api/v2/update_run/{run_id}
+    - POST https://{instance}.testrail.io/index.php?/api/v2/close_run/{run_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_tests/{run_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_results_for_run/{run_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_results_for_case/{run_id}/{case_id}
+    - POST https://{instance}.testrail.io/index.php?/api/v2/add_result/{test_id}
+    - POST https://{instance}.testrail.io/index.php?/api/v2/add_results_for_cases/{run_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_plans/{project_id}
+    - POST https://{instance}.testrail.io/index.php?/api/v2/add_plan/{project_id}
+    - POST https://{instance}.testrail.io/index.php?/api/v2/add_plan_entry/{plan_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_milestones/{project_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_configs/{project_id}
+    - GET  https://{instance}.testrail.io/index.php?/api/v2/get_users
+sources:
+  - url: https://support.testrail.com/hc/en-us/articles/7077083596436-Introduction-to-the-TestRail-API
+    type: Documentation
+    note: API overview and index.php?/api/v2/ URL style. All REST; no WebSocket mentioned.
+  - url: https://support.testrail.com/hc/en-us/articles/7077039051284-Accessing-the-TestRail-API
+    type: Documentation
+    note: HTTP Basic auth with email + password or API key; enable API in Site Settings.
+  - url: https://support.testrail.com/hc/en-us/articles/7077874763156-Runs
+    type: APIReference
+    note: Runs CRUD (get_runs, get_run, add_run, update_run, close_run, delete_run).
+  - url: https://support.testrail.com/hc/en-us/articles/7077819312404-Results
+    type: APIReference
+    note: Results read and bulk add (add_results, add_results_for_cases).
+  - url: https://support.testrail.com/hc/en-us/articles/7077292642580-Cases
+    type: APIReference
+    note: Cases CRUD; bulk get_cases returns up to 250 records per page.
+  - url: https://support.testrail.com/hc/en-us/articles/7077711537684-Plans
+    type: APIReference
+    note: Plans and plan entries.
+  - url: https://support.testrail.com/hc/en-us/articles/7077175066388-Error-handling
+    type: Documentation
+    note: 429 Too Many Requests with Retry-After on TestRail Cloud; no WebSocket.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. TestRail's own public API (v2) is
+    request/response REST over HTTPS via index.php, with outbound webhooks as
+    the only server-initiated HTTP. No AsyncAPI document was created because
+    there is no server-push streaming transport (WebSocket or SSE) on TestRail's
+    own API to model.

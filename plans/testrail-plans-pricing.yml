@@ -1,0 +1,130 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: TestRail
+providerId: testrail
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Test Management
+- QA
+- Testing
+- Test Runs
+- Plans
+description: >-
+  TestRail is licensed per user (per seat) across two commercial tiers,
+  Professional and Enterprise, each available as TestRail Cloud (hosted) or
+  TestRail Server (self-hosted). The API is included with every paid seat - it is
+  not a separately metered product. As published on testrail.com/pricing (mid
+  2026), Professional Cloud is roughly $38 per user per month billed annually
+  (monthly billing runs higher, about $40 per user per month for small teams of
+  1-20 users), and Enterprise Cloud starts around $71-74 per user per month with
+  Enterprise priced at roughly double Professional. Enterprise adds SSO, advanced
+  auditing, test case version control, approvals, test parameterization, higher
+  API rate limits, and priority support. TestRail Server (self-hosted) is sold on
+  a comparable per-user basis; contact TestRail for Server and volume pricing.
+notes: >-
+  Per-user rates are published on the TestRail pricing page and change over time;
+  the figures here reflect mid-2026 published pricing and are not reconciled.
+  Verify current Professional/Enterprise and Cloud/Server rates, minimum seat
+  counts, and annual-vs-monthly discounts on testrail.com/pricing during
+  reconciliation. The API carries no separate fee.
+sources:
+- https://www.testrail.com/pricing/
+- https://support.testrail.com/hc/en-us/articles/16548874084628-TestRail-Server-vs-TestRail-Cloud
+plans:
+- id: testrail-professional-cloud
+  name: Professional Cloud
+  type: paid
+  description: >-
+    Hosted per-user TestRail with the full test management feature set - projects,
+    suites, cases, runs, plans, milestones, reporting, and the API. Available on
+    monthly or discounted annual billing.
+  entries:
+  - label: Professional Cloud Seat
+    name: professional_cloud_seat
+    type: flat
+    metric: user
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: ~$38/user/month billed annually (~$40/user/month monthly for 1-20 users)
+    userMultiplied: true
+  elements:
+  - name: Full Test Management
+  - name: Test Runs and Plans
+  - name: TestRail API v2
+  - name: Reporting and Dashboards
+  - name: ~180 req/min API Rate Limit
+- id: testrail-enterprise-cloud
+  name: Enterprise Cloud
+  type: paid
+  description: >-
+    Hosted per-user TestRail for larger or regulated teams. Adds SSO, advanced
+    auditing, test case version control, approvals, test parameterization, a
+    higher API rate limit, and priority support. Typically annual billing.
+  entries:
+  - label: Enterprise Cloud Seat
+    name: enterprise_cloud_seat
+    type: flat
+    metric: user
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: from ~$71-74/user/month billed annually (about double Professional)
+    userMultiplied: true
+  elements:
+  - name: Everything in Professional
+  - name: SSO and Advanced Auditing
+  - name: Test Case Version Control
+  - name: Approvals and Parameterization
+  - name: ~300 req/min API Rate Limit
+  - name: Priority Support
+- id: testrail-server-self-hosted
+  name: TestRail Server (Self-Hosted)
+  type: paid
+  description: >-
+    Self-hosted, per-user TestRail installed on the customer's own infrastructure
+    (Professional or Enterprise edition). No built-in API rate limits; throughput
+    is bounded by your own hardware. Priced per user; contact TestRail.
+  entries:
+  - label: Server Seat
+    name: server_seat
+    type: flat
+    metric: user
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: per-user license (contact sales; Professional and Enterprise editions)
+    userMultiplied: true
+  elements:
+  - name: Self-Managed Deployment
+  - name: No Built-In API Rate Limit
+  - name: Professional or Enterprise Edition
+- id: testrail-trial
+  name: Free Trial
+  type: trial
+  description: >-
+    Time-limited free trial of TestRail Cloud for evaluation, including API
+    access.
+  entries:
+  - label: Trial
+    name: trial
+    type: flat
+    metric: user
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: free during the trial period
+    userMultiplied: false
+  elements:
+  - name: Evaluation Access
+  - name: API Access
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

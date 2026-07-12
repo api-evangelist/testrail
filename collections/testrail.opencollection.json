@@ -1,0 +1,393 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TestRail API (v2)",
+    "version": "2.0",
+    "description": "TestRail test case management / QA API v2. Per-instance host (TestRail Cloud https://{instance}.testrail.io or self-hosted Server). Every call is routed through index.php, so the base is https://{instance}.testrail.io/index.php?/api/v2 and a method looks like get_run/1 appended to it. HTTP Basic auth: username is your TestRail email, password is your password or an API key."
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{email}}",
+      "password": "{{apiKey}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Runs", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get runs for a project.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_runs/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ]
+          },
+          "docs": "Returns a list of test runs for a project (excludes runs inside a plan). Bulk endpoint, up to 250 records per page."
+        },
+        {
+          "info": { "name": "Get run.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_run/:run_id",
+            "params": [
+              { "name": "run_id", "value": "1", "type": "path", "description": "The ID of the test run." }
+            ]
+          },
+          "docs": "Returns an existing test run with pass/fail/blocked counts."
+        },
+        {
+          "info": { "name": "Add run.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/add_run/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"name\": \"Automated run\",\n  \"include_all\": true\n}" }
+          },
+          "docs": "Creates a new test run. Set include_all=false and pass case_ids to scope to specific cases."
+        },
+        {
+          "info": { "name": "Update run.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/update_run/:run_id",
+            "params": [
+              { "name": "run_id", "value": "1", "type": "path", "description": "The ID of the test run." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"name\": \"Renamed run\"\n}" }
+          },
+          "docs": "Updates an existing test run (same fields as add_run except suite_id)."
+        },
+        {
+          "info": { "name": "Close run.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/close_run/:run_id",
+            "params": [
+              { "name": "run_id", "value": "1", "type": "path", "description": "The ID of the test run." }
+            ]
+          },
+          "docs": "Closes a test run and archives its tests and results. Cannot be undone."
+        },
+        {
+          "info": { "name": "Delete run.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/delete_run/:run_id",
+            "params": [
+              { "name": "run_id", "value": "1", "type": "path", "description": "The ID of the test run." }
+            ]
+          },
+          "docs": "Deletes an existing test run."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Results", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get results for a run.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_results_for_run/:run_id",
+            "params": [
+              { "name": "run_id", "value": "1", "type": "path", "description": "The ID of the test run." }
+            ]
+          },
+          "docs": "Returns test results for a run. Bulk endpoint, up to 250 records per page."
+        },
+        {
+          "info": { "name": "Get results for a case in a run.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_results_for_case/:run_id/:case_id",
+            "params": [
+              { "name": "run_id", "value": "1", "type": "path", "description": "The ID of the test run." },
+              { "name": "case_id", "value": "1", "type": "path", "description": "The ID of the test case." }
+            ]
+          },
+          "docs": "Returns results for a run and case combination."
+        },
+        {
+          "info": { "name": "Add result for a test.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/add_result/:test_id",
+            "params": [
+              { "name": "test_id", "value": "1", "type": "path", "description": "The ID of the test." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"status_id\": 1,\n  \"comment\": \"Passed via automation\",\n  \"elapsed\": \"30s\"\n}" }
+          },
+          "docs": "Adds a result to a test. status_id 1=Passed, 2=Blocked, 3=Untested, 4=Retest, 5=Failed."
+        },
+        {
+          "info": { "name": "Add results for cases (bulk).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/add_results_for_cases/:run_id",
+            "params": [
+              { "name": "run_id", "value": "1", "type": "path", "description": "The ID of the test run." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"results\": [\n    { \"case_id\": 1, \"status_id\": 1 },\n    { \"case_id\": 2, \"status_id\": 5, \"comment\": \"Assertion failed\" }\n  ]\n}" }
+          },
+          "docs": "Preferred bulk endpoint for automation to report many results into a run in one call."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Cases", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get cases for a project.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_cases/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ]
+          },
+          "docs": "Returns test cases for a project. Bulk endpoint, up to 250 records per page; filter by suite_id/section_id."
+        },
+        {
+          "info": { "name": "Get case.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_case/:case_id",
+            "params": [
+              { "name": "case_id", "value": "1", "type": "path", "description": "The ID of the test case." }
+            ]
+          },
+          "docs": "Returns an existing test case."
+        },
+        {
+          "info": { "name": "Add case.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/add_case/:section_id",
+            "params": [
+              { "name": "section_id", "value": "1", "type": "path", "description": "The ID of the section." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"title\": \"Verify login\"\n}" }
+          },
+          "docs": "Creates a new test case in a section."
+        },
+        {
+          "info": { "name": "Update case.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/update_case/:case_id",
+            "params": [
+              { "name": "case_id", "value": "1", "type": "path", "description": "The ID of the test case." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"title\": \"Verify login (updated)\"\n}" }
+          },
+          "docs": "Updates an existing test case."
+        },
+        {
+          "info": { "name": "Delete case.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/delete_case/:case_id",
+            "params": [
+              { "name": "case_id", "value": "1", "type": "path", "description": "The ID of the test case." }
+            ]
+          },
+          "docs": "Deletes an existing test case."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Tests", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get tests for a run.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_tests/:run_id",
+            "params": [
+              { "name": "run_id", "value": "1", "type": "path", "description": "The ID of the test run." }
+            ]
+          },
+          "docs": "Returns the tests (case instances) in a run. Bulk endpoint, up to 250 records per page."
+        },
+        {
+          "info": { "name": "Get test.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_test/:test_id",
+            "params": [
+              { "name": "test_id", "value": "1", "type": "path", "description": "The ID of the test." }
+            ]
+          },
+          "docs": "Returns an existing test."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Plans", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get plans for a project.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_plans/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ]
+          },
+          "docs": "Returns test plans for a project. Bulk endpoint, up to 250 records per page."
+        },
+        {
+          "info": { "name": "Add plan.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/add_plan/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"name\": \"Release 1.0 test plan\"\n}" }
+          },
+          "docs": "Creates a new test plan, optionally with entries."
+        },
+        {
+          "info": { "name": "Add plan entry.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/add_plan_entry/:plan_id",
+            "params": [
+              { "name": "plan_id", "value": "1", "type": "path", "description": "The ID of the test plan." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"suite_id\": 1,\n  \"include_all\": true\n}" }
+          },
+          "docs": "Adds one or more runs to a plan as an entry, optionally across configurations."
+        },
+        {
+          "info": { "name": "Close plan.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/close_plan/:plan_id",
+            "params": [
+              { "name": "plan_id", "value": "1", "type": "path", "description": "The ID of the test plan." }
+            ]
+          },
+          "docs": "Closes a plan and archives its runs and results."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Projects", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get projects.", "type": "http" },
+          "http": { "method": "GET", "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_projects" },
+          "docs": "Returns the list of available projects."
+        },
+        {
+          "info": { "name": "Get project.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_project/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ]
+          },
+          "docs": "Returns an existing project."
+        },
+        {
+          "info": { "name": "Add project.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/add_project",
+            "body": { "type": "json", "data": "{\n  \"name\": \"New project\",\n  \"suite_mode\": 1\n}" }
+          },
+          "docs": "Creates a new project (admin required)."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Suites & Sections", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get suites for a project.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_suites/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ]
+          },
+          "docs": "Returns a list of test suites for a project."
+        },
+        {
+          "info": { "name": "Get sections for a project.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_sections/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ]
+          },
+          "docs": "Returns a list of sections for a project and optional suite."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Milestones", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get milestones for a project.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_milestones/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ]
+          },
+          "docs": "Returns a list of milestones for a project."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Configurations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get configurations for a project.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_configs/:project_id",
+            "params": [
+              { "name": "project_id", "value": "1", "type": "path", "description": "The ID of the project." }
+            ]
+          },
+          "docs": "Returns configuration groups and configurations for a project."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Users", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get users.", "type": "http" },
+          "http": { "method": "GET", "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_users" },
+          "docs": "Returns a list of users."
+        },
+        {
+          "info": { "name": "Get user by email.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://{{instance}}.testrail.io/index.php?/api/v2/get_user_by_email&email=user@example.com",
+            "params": [
+              { "name": "email", "value": "user@example.com", "type": "query", "description": "The email address to look up." }
+            ]
+          },
+          "docs": "Returns a user by email address. Note filters are appended with & after the index.php query string."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

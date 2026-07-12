@@ -1,0 +1,92 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: TestRail
+providerId: testrail
+created: '2026-07-11'
+modified: '2026-07-11'
+reconciled: false
+tags:
+- Test Management
+- QA
+- Testing
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of TestRail spend. TestRail is licensed per user (per seat), not by
+  API call or usage volume, so cost is primarily a function of seat count and
+  tier (Professional vs Enterprise) and deployment (Cloud vs self-hosted Server).
+  The API is included with every paid seat and is not separately metered - there
+  is no per-request charge. On TestRail Cloud the vendor invoice is the seat
+  subscription; on self-hosted TestRail Server the dominant costs shift to the
+  license plus the customer's own infrastructure and operations. Optimization is
+  mostly about right-sizing seats and choosing the tier whose API rate limit and
+  features match the team's automation needs.
+notes: >-
+  Per-seat rates are published on the TestRail pricing page and are not
+  reconciled here. Because billing is per user rather than per API call, FinOps
+  attention centers on active-seat management, tier selection, and Cloud-vs-Server
+  total cost of ownership rather than usage metering.
+sources:
+- https://www.testrail.com/pricing/
+- https://support.testrail.com/hc/en-us/articles/16548874084628-TestRail-Server-vs-TestRail-Cloud
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: TestRail
+serviceCategory: Software and Development Tools
+billingModel:
+  pricingCategory: Subscription
+  billingFrequency: Monthly or Annual
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: TestRail
+  ServiceCategory: Software and Development Tools
+  ProviderName: TestRail
+  PublisherName: IDERA
+  InvoiceIssuerName: TestRail
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription
+meters:
+- name: seats
+  description: Licensed TestRail users (seats); the primary cost driver on Cloud and Server.
+  unit: users
+  aggregation: sum
+  dimensions:
+  - account
+  - tier
+  - deployment
+- name: tier
+  description: Professional vs Enterprise edition, which sets per-seat rate, features, and API rate limit.
+  unit: tier
+  aggregation: max
+  dimensions:
+  - account
+- name: self_hosted_infrastructure
+  description: Compute, storage, and operations for running self-hosted TestRail Server (no TestRail usage invoice).
+  unit: hours
+  aggregation: sum
+  dimensions:
+  - deployment
+principles:
+- name: Visibility
+  description: Track active vs licensed seats per tier and deployment; the API is included, so there is no per-call spend to meter.
+- name: Allocation
+  description: Map seats to teams/projects so per-user license cost aligns to the groups actually using TestRail.
+- name: Optimization
+  description: Reclaim inactive seats, right-size Professional vs Enterprise per team, and weigh Cloud subscription against self-hosted Server total cost of ownership; pick the tier whose API rate limit fits automation volume rather than over-buying.
+- name: Accountability
+  description: Assign an owner for the TestRail subscription; review seat counts and tier fit each renewal cycle.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

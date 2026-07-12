@@ -1,0 +1,351 @@
+{
+  "info": {
+    "name": "TestRail API (v2)",
+    "description": "TestRail test case management / QA API v2. Per-instance host (TestRail Cloud https://{instance}.testrail.io or self-hosted Server). Every call is routed through TestRail's index.php front controller, so the base is https://{{instance}}.testrail.io/index.php?/api/v2 and a method is appended, e.g. .../index.php?/api/v2/get_run/1. Additional filters are appended with '&', e.g. get_runs/1&is_completed=0. Auth is HTTP Basic: username is your TestRail email, password is your account password or an API key from My Settings. Set the 'instance', 'email', and 'apiKey' collection variables before running.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      { "key": "username", "value": "{{email}}", "type": "string" },
+      { "key": "password", "value": "{{apiKey}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "instance", "value": "example", "type": "string" },
+    { "key": "baseUrl", "value": "https://{{instance}}.testrail.io/index.php?/api/v2", "type": "string" },
+    { "key": "email", "value": "", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Runs",
+      "item": [
+        {
+          "name": "Get runs for a project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_runs/1" },
+            "description": "Returns a list of test runs for a project (excludes runs inside a plan). Bulk endpoint, up to 250 records per page. Append filters with & (e.g. /get_runs/1&is_completed=0&limit=50)."
+          }
+        },
+        {
+          "name": "Get run",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_run/1" },
+            "description": "Returns an existing test run with pass/fail/blocked counts."
+          }
+        },
+        {
+          "name": "Add run",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Automated run\",\n  \"include_all\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/add_run/1" },
+            "description": "Creates a new test run in project 1. Set include_all=false and pass case_ids to scope to specific cases."
+          }
+        },
+        {
+          "name": "Update run",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Renamed run\"\n}" },
+            "url": { "raw": "{{baseUrl}}/update_run/1" },
+            "description": "Updates an existing test run (same fields as add_run except suite_id)."
+          }
+        },
+        {
+          "name": "Close run",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/close_run/1" },
+            "description": "Closes a test run and archives its tests and results. Cannot be undone."
+          }
+        },
+        {
+          "name": "Delete run",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/delete_run/1" },
+            "description": "Deletes an existing test run."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Results",
+      "item": [
+        {
+          "name": "Get results for a run",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_results_for_run/1" },
+            "description": "Returns test results for a run. Bulk endpoint, up to 250 records per page."
+          }
+        },
+        {
+          "name": "Get results for a case in a run",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_results_for_case/1/1" },
+            "description": "Returns results for a run (1) and case (1) combination."
+          }
+        },
+        {
+          "name": "Add result for a test",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"status_id\": 1,\n  \"comment\": \"Passed via automation\",\n  \"elapsed\": \"30s\"\n}" },
+            "url": { "raw": "{{baseUrl}}/add_result/1" },
+            "description": "Adds a result to test 1. status_id 1=Passed, 2=Blocked, 3=Untested, 4=Retest, 5=Failed."
+          }
+        },
+        {
+          "name": "Add results for cases (bulk)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"results\": [\n    { \"case_id\": 1, \"status_id\": 1 },\n    { \"case_id\": 2, \"status_id\": 5, \"comment\": \"Assertion failed\" }\n  ]\n}" },
+            "url": { "raw": "{{baseUrl}}/add_results_for_cases/1" },
+            "description": "Preferred bulk endpoint for automation to report many results into run 1 in one call (reduces rate-limited requests)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cases",
+      "item": [
+        {
+          "name": "Get cases for a project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_cases/1" },
+            "description": "Returns test cases for project 1. Bulk endpoint, up to 250 records per page; filter by suite_id/section_id with &."
+          }
+        },
+        {
+          "name": "Get case",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_case/1" },
+            "description": "Returns an existing test case."
+          }
+        },
+        {
+          "name": "Add case",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Verify login\"\n}" },
+            "url": { "raw": "{{baseUrl}}/add_case/1" },
+            "description": "Creates a new test case in section 1."
+          }
+        },
+        {
+          "name": "Update case",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"title\": \"Verify login (updated)\"\n}" },
+            "url": { "raw": "{{baseUrl}}/update_case/1" },
+            "description": "Updates an existing test case."
+          }
+        },
+        {
+          "name": "Delete case",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/delete_case/1" },
+            "description": "Deletes an existing test case."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Tests",
+      "item": [
+        {
+          "name": "Get tests for a run",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_tests/1" },
+            "description": "Returns the tests (case instances) in run 1. Bulk endpoint, up to 250 records per page."
+          }
+        },
+        {
+          "name": "Get test",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_test/1" },
+            "description": "Returns an existing test."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Plans",
+      "item": [
+        {
+          "name": "Get plans for a project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_plans/1" },
+            "description": "Returns test plans for project 1. Bulk endpoint, up to 250 records per page."
+          }
+        },
+        {
+          "name": "Add plan",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Release 1.0 test plan\"\n}" },
+            "url": { "raw": "{{baseUrl}}/add_plan/1" },
+            "description": "Creates a new test plan in project 1, optionally with entries."
+          }
+        },
+        {
+          "name": "Add plan entry",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"suite_id\": 1,\n  \"include_all\": true\n}" },
+            "url": { "raw": "{{baseUrl}}/add_plan_entry/1" },
+            "description": "Adds one or more runs to plan 1 as an entry, optionally across configurations."
+          }
+        },
+        {
+          "name": "Close plan",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/close_plan/1" },
+            "description": "Closes plan 1 and archives its runs and results."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Projects",
+      "item": [
+        {
+          "name": "Get projects",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_projects" },
+            "description": "Returns the list of available projects."
+          }
+        },
+        {
+          "name": "Get project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_project/1" },
+            "description": "Returns an existing project."
+          }
+        },
+        {
+          "name": "Add project",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"New project\",\n  \"suite_mode\": 1\n}" },
+            "url": { "raw": "{{baseUrl}}/add_project" },
+            "description": "Creates a new project (admin required)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Suites & Sections",
+      "item": [
+        {
+          "name": "Get suites for a project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_suites/1" },
+            "description": "Returns a list of test suites for project 1."
+          }
+        },
+        {
+          "name": "Get sections for a project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_sections/1" },
+            "description": "Returns a list of sections for project 1 and optional suite (append &suite_id=)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Milestones",
+      "item": [
+        {
+          "name": "Get milestones for a project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_milestones/1" },
+            "description": "Returns a list of milestones for project 1."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Configurations",
+      "item": [
+        {
+          "name": "Get configurations for a project",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_configs/1" },
+            "description": "Returns configuration groups and configurations for project 1."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get users",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_users" },
+            "description": "Returns a list of users."
+          }
+        },
+        {
+          "name": "Get user by email",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/get_user_by_email&email=user@example.com" },
+            "description": "Returns a user by email address. Filters are appended with & after the index.php query string."
+          }
+        }
+      ]
+    }
+  ]
+}

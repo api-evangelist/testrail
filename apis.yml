@@ -1,0 +1,282 @@
+aid: testrail
+url: https://raw.githubusercontent.com/api-evangelist/testrail/refs/heads/main/apis.yml
+name: TestRail
+kind: company
+description: TestRail is a web-based test case management and QA platform (originally
+  by Gurock, now part of IDERA) for organizing test cases, running test runs and test
+  plans, and recording test results across manual and automated testing. Its HTTP
+  API (v2) exposes projects, suites, sections, cases, runs, plans, tests, results,
+  milestones, configurations, and users so teams can push automated results, create
+  and close test runs, and sync test cases programmatically. The API is available on
+  TestRail Cloud (per-instance host, e.g. https://{instance}.testrail.io) and on
+  self-hosted TestRail Server/Enterprise, and uses the distinctive
+  index.php?/api/v2/ URL style with HTTP Basic authentication (email plus password
+  or API key).
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Test Runs
+- Test Management
+- QA
+- Test Cases
+- Test Results
+- Test Plans
+- Testing
+- Test Automation
+created: '2026-07-11'
+modified: '2026-07-11'
+specificationVersion: '0.19'
+apis:
+- aid: testrail:testrail-test-runs-api
+  name: TestRail Test Runs API
+  tags:
+  - Test Runs
+  - Runs
+  - QA
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077874763156-Runs
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077874763156-Runs
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Create, retrieve, update, close, and delete test runs for a project.
+    A test run is an execution of a set of test cases; get_runs lists runs for a
+    project, add_run creates one (optionally scoped to specific cases), close_run
+    archives it and its results. This is the surface behind the "test runs" QA
+    workflow.
+- aid: testrail:testrail-test-results-api
+  name: TestRail Test Results API
+  tags:
+  - Test Results
+  - Results
+  - Automation
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077819312404-Results
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077819312404-Results
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Read and record test results. Retrieve results for a test, a case, or
+    an entire run, and push new results back - individually (add_result,
+    add_result_for_case) or in bulk (add_results, add_results_for_cases). The bulk
+    endpoints are the recommended way for automated test suites to report status,
+    elapsed time, defects, and comments into a run.
+- aid: testrail:testrail-test-cases-api
+  name: TestRail Test Cases API
+  tags:
+  - Test Cases
+  - Cases
+  - Test Management
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077292642580-Cases
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077292642580-Cases
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Manage the reusable test cases in a project's repository - list, get,
+    create, update, copy, move, and delete cases, plus read case fields and case
+    types. Bulk get_cases returns up to 250 records per page and supports filters
+    for suite, section, and update history.
+- aid: testrail:testrail-tests-api
+  name: TestRail Tests API
+  tags:
+  - Tests
+  - Test Instances
+  - QA
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077990441108-Tests
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077990441108-Tests
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Retrieve the individual tests generated inside a test run. A "test" is
+    the instance of a case within a specific run, carrying current status and the
+    run-time fields; get_tests lists them for a run and get_test fetches one by ID.
+- aid: testrail:testrail-test-plans-api
+  name: TestRail Test Plans API
+  tags:
+  - Test Plans
+  - Plans
+  - Configurations
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077711537684-Plans
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077711537684-Plans
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Manage test plans, which group multiple test runs (often across
+    configurations) under one milestone. Create and update plans, add and update
+    plan entries (each entry becomes one or more runs across configurations), and
+    close or delete plans.
+- aid: testrail:testrail-projects-api
+  name: TestRail Projects API
+  tags:
+  - Projects
+  - Administration
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077792415124-Projects
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077792415124-Projects
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: List, get, create, update, and delete projects - the top-level
+    container that owns suites, cases, runs, plans, and milestones. Projects can be
+    configured for single-suite, single-suite-with-baselines, or multi-suite modes.
+- aid: testrail:testrail-test-suites-api
+  name: TestRail Test Suites API
+  tags:
+  - Suites
+  - Test Cases
+  - Organization
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077936624276-Suites
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077936624276-Suites
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Manage test suites (collections of test cases) within a project - list,
+    get, create, update, and delete suites. Used in multi-suite projects to organize
+    cases by component, feature, or area.
+- aid: testrail:testrail-sections-api
+  name: TestRail Sections API
+  tags:
+  - Sections
+  - Test Cases
+  - Organization
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077083596436-Introduction-to-the-TestRail-API
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077083596436-Introduction-to-the-TestRail-API
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Manage sections and subsections that group test cases inside a suite -
+    list, get, create, update, and delete sections. Sections provide the folder-like
+    hierarchy for organizing a case repository.
+- aid: testrail:testrail-milestones-api
+  name: TestRail Milestones API
+  tags:
+  - Milestones
+  - Planning
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077723976084-Milestones
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077723976084-Milestones
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Manage milestones used to track releases and deadlines - list, get,
+    create, update, and delete milestones. Runs and plans can be associated with a
+    milestone to report progress toward a release.
+- aid: testrail:testrail-configurations-api
+  name: TestRail Configurations API
+  tags:
+  - Configurations
+  - Test Plans
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077083596436-Introduction-to-the-TestRail-API
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077083596436-Introduction-to-the-TestRail-API
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Manage configuration groups and configurations (for example browsers or
+    operating systems) that plan entries expand across to generate multiple runs -
+    list groups, create and update groups, and add, update, and delete individual
+    configurations.
+- aid: testrail:testrail-users-api
+  name: TestRail Users API
+  tags:
+  - Users
+  - Administration
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://support.testrail.com/hc/en-us/articles/7077083596436-Introduction-to-the-TestRail-API
+  baseURL: 'https://{instance}.testrail.io/index.php?/api/v2'
+  properties:
+  - url: https://support.testrail.com/hc/en-us/articles/7077083596436-Introduction-to-the-TestRail-API
+    type: APIReference
+  - url: openapi/testrail-openapi.yml
+    type: OpenAPI
+  - url: collections/testrail.postman_collection.json
+    type: PostmanCollection
+  - url: collections/testrail.opencollection.json
+    type: OpenCollection
+  description: Look up TestRail users - list all users, get a user by ID, or find a
+    user by email address. Used to resolve assignee and creator IDs when creating
+    runs, assigning tests, or recording results.
+common:
+- type: Authentication
+  url: authentication/testrail-authentication.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/testrail
+- type: Website
+  url: https://www.testrail.com
+- type: Documentation
+  url: https://support.testrail.com/hc/en-us/articles/7077083596436-Introduction-to-the-TestRail-API
+- type: Plans
+  url: plans/testrail-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/testrail-rate-limits.yml
+- type: FinOps
+  url: finops/testrail-finops.yml
+- type: Pricing
+  url: https://www.testrail.com/pricing/
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
