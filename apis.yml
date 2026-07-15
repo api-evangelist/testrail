@@ -261,6 +261,8 @@ apis:
     user by email address. Used to resolve assignee and creator IDs when creating
     runs, assigning tests, or recording results.
 common:
+- type: AgenticAccess
+  url: agentic-access/testrail-agentic-access.yml
 - type: Authentication
   url: authentication/testrail-authentication.yml
 - type: LinkedIn
