@@ -1,0 +1,102 @@
+openapi: 3.0.3
+info:
+  title: TestRail API (v2) Cases Tests API
+  description: 'TestRail is a web-based test case management and QA platform. This document models the TestRail HTTP API v2, which lets teams manage projects, suites, sections, test cases, test runs, test plans, individual tests, results, milestones, configurations, and users.
+
+
+    TestRail runs on a per-customer instance: TestRail Cloud is hosted at https://{instance}.testrail.io (older Cloud instances use .testrail.com), and TestRail Server / Enterprise is self-hosted on your own host. There is no single shared public endpoint.
+
+
+    URL style: every call is routed through TestRail''s `index.php` front controller, so the effective base is `https://{instance}.testrail.io/index.php?/api/v2` and a method looks like `GET /index.php?/api/v2/get_run/1`. The `?/api/v2/...` is a rewritten query string that TestRail treats as the API path. In this document the servers entry carries the `index.php?/api/v2` prefix and each path is the method name plus its id/parent segment.
+
+
+    Authentication is HTTP Basic: the username is your TestRail email and the password is your account password or an API key generated under My Settings. The API must be enabled by an administrator under Administration > Site Settings > API. All payloads are JSON.
+
+
+    Bulk GET endpoints (get_cases, get_runs, get_results, etc.) return up to 250 records per page and accept `limit` (1-250) and `offset` for pagination.'
+  version: '2.0'
+  contact:
+    name: TestRail (IDERA)
+    url: https://www.testrail.com
+  x-transport-note: The real request URL embeds the API version in a query string via index.php, e.g. https://example.testrail.io/index.php?/api/v2/get_run/1 - this is intentional and specific to TestRail, not a normal REST path.
+servers:
+- url: https://{instance}.testrail.io/index.php?/api/v2
+  description: TestRail Cloud (per-instance host; replace {instance} with your subdomain)
+  variables:
+    instance:
+      default: example
+      description: Your TestRail Cloud subdomain.
+- url: https://{host}/index.php?/api/v2
+  description: TestRail Server / Enterprise (self-hosted; replace {host} with your install host)
+  variables:
+    host:
+      default: testrail.example.com
+      description: Hostname of your self-hosted TestRail installation.
+security:
+- basicAuth: []
+tags:
+- name: Tests
+  description: Instances of a case within a specific run.
+paths:
+  /get_tests/{run_id}:
+    get:
+      operationId: getTests
+      tags:
+      - Tests
+      summary: Get tests
+      description: Returns a list of tests for a test run. Bulk endpoint - returns up to 250 records per page; use limit and offset to page. Supports a status_id filter.
+      parameters:
+      - $ref: '#/components/parameters/RunId'
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A list of tests in the run.
+  /get_test/{test_id}:
+    get:
+      operationId: getTest
+      tags:
+      - Tests
+      summary: Get test
+      description: Returns an existing test (a case instance within a run).
+      parameters:
+      - name: test_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: The requested test.
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 250
+    RunId:
+      name: run_id
+      in: path
+      required: true
+      description: The ID of the test run.
+      schema:
+        type: integer
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of records to skip for pagination on bulk endpoints.
+      schema:
+        type: integer
+        minimum: 0
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication. Username is your TestRail email; password is your account password or an API key generated under My Settings. The API must be enabled by an admin under Administration > Site Settings > API.

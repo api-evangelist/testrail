@@ -1,0 +1,216 @@
+openapi: 3.0.3
+info:
+  title: TestRail API (v2) Cases Plans API
+  description: 'TestRail is a web-based test case management and QA platform. This document models the TestRail HTTP API v2, which lets teams manage projects, suites, sections, test cases, test runs, test plans, individual tests, results, milestones, configurations, and users.
+
+
+    TestRail runs on a per-customer instance: TestRail Cloud is hosted at https://{instance}.testrail.io (older Cloud instances use .testrail.com), and TestRail Server / Enterprise is self-hosted on your own host. There is no single shared public endpoint.
+
+
+    URL style: every call is routed through TestRail''s `index.php` front controller, so the effective base is `https://{instance}.testrail.io/index.php?/api/v2` and a method looks like `GET /index.php?/api/v2/get_run/1`. The `?/api/v2/...` is a rewritten query string that TestRail treats as the API path. In this document the servers entry carries the `index.php?/api/v2` prefix and each path is the method name plus its id/parent segment.
+
+
+    Authentication is HTTP Basic: the username is your TestRail email and the password is your account password or an API key generated under My Settings. The API must be enabled by an administrator under Administration > Site Settings > API. All payloads are JSON.
+
+
+    Bulk GET endpoints (get_cases, get_runs, get_results, etc.) return up to 250 records per page and accept `limit` (1-250) and `offset` for pagination.'
+  version: '2.0'
+  contact:
+    name: TestRail (IDERA)
+    url: https://www.testrail.com
+  x-transport-note: The real request URL embeds the API version in a query string via index.php, e.g. https://example.testrail.io/index.php?/api/v2/get_run/1 - this is intentional and specific to TestRail, not a normal REST path.
+servers:
+- url: https://{instance}.testrail.io/index.php?/api/v2
+  description: TestRail Cloud (per-instance host; replace {instance} with your subdomain)
+  variables:
+    instance:
+      default: example
+      description: Your TestRail Cloud subdomain.
+- url: https://{host}/index.php?/api/v2
+  description: TestRail Server / Enterprise (self-hosted; replace {host} with your install host)
+  variables:
+    host:
+      default: testrail.example.com
+      description: Hostname of your self-hosted TestRail installation.
+security:
+- basicAuth: []
+tags:
+- name: Plans
+  description: Groups of runs, optionally across configurations.
+paths:
+  /get_plans/{project_id}:
+    get:
+      operationId: getPlans
+      tags:
+      - Plans
+      summary: Get plans
+      description: Returns a list of test plans for a project. Bulk endpoint - returns up to 250 records per page.
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A list of test plans.
+  /get_plan/{plan_id}:
+    get:
+      operationId: getPlan
+      tags:
+      - Plans
+      summary: Get plan
+      description: Returns an existing test plan, including its entries and runs.
+      parameters:
+      - $ref: '#/components/parameters/PlanId'
+      responses:
+        '200':
+          description: The requested test plan.
+  /add_plan/{project_id}:
+    post:
+      operationId: addPlan
+      tags:
+      - Plans
+      summary: Add plan
+      description: Creates a new test plan in a project, optionally with entries.
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        $ref: '#/components/requestBodies/GenericJson'
+      responses:
+        '200':
+          description: The created test plan.
+  /update_plan/{plan_id}:
+    post:
+      operationId: updatePlan
+      tags:
+      - Plans
+      summary: Update plan
+      description: Updates an existing test plan (name, description, milestone).
+      parameters:
+      - $ref: '#/components/parameters/PlanId'
+      requestBody:
+        $ref: '#/components/requestBodies/GenericJson'
+      responses:
+        '200':
+          description: The updated test plan.
+  /add_plan_entry/{plan_id}:
+    post:
+      operationId: addPlanEntry
+      tags:
+      - Plans
+      summary: Add plan entry
+      description: Adds one or more new test runs to a plan as an entry, optionally expanded across configurations.
+      parameters:
+      - $ref: '#/components/parameters/PlanId'
+      requestBody:
+        $ref: '#/components/requestBodies/GenericJson'
+      responses:
+        '200':
+          description: The created plan entry.
+  /update_plan_entry/{plan_id}/{entry_id}:
+    post:
+      operationId: updatePlanEntry
+      tags:
+      - Plans
+      summary: Update plan entry
+      description: Updates one or more runs in a plan entry.
+      parameters:
+      - $ref: '#/components/parameters/PlanId'
+      - name: entry_id
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/GenericJson'
+      responses:
+        '200':
+          description: The updated plan entry.
+  /delete_plan_entry/{plan_id}/{entry_id}:
+    post:
+      operationId: deletePlanEntry
+      tags:
+      - Plans
+      summary: Delete plan entry
+      description: Deletes one or more runs from a plan.
+      parameters:
+      - $ref: '#/components/parameters/PlanId'
+      - name: entry_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deletion confirmation.
+  /close_plan/{plan_id}:
+    post:
+      operationId: closePlan
+      tags:
+      - Plans
+      summary: Close plan
+      description: Closes an existing test plan and archives its runs and results.
+      parameters:
+      - $ref: '#/components/parameters/PlanId'
+      responses:
+        '200':
+          description: The closed test plan.
+  /delete_plan/{plan_id}:
+    post:
+      operationId: deletePlan
+      tags:
+      - Plans
+      summary: Delete plan
+      description: Deletes an existing test plan.
+      parameters:
+      - $ref: '#/components/parameters/PlanId'
+      responses:
+        '200':
+          description: Deletion confirmation.
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 250
+    PlanId:
+      name: plan_id
+      in: path
+      required: true
+      description: The ID of the test plan.
+      schema:
+        type: integer
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of records to skip for pagination on bulk endpoints.
+      schema:
+        type: integer
+        minimum: 0
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
+  requestBodies:
+    GenericJson:
+      required: true
+      description: JSON request body. Field names follow the TestRail API reference for the specific method (see the method's support.testrail.com article).
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication. Username is your TestRail email; password is your account password or an API key generated under My Settings. The API must be enabled by an admin under Administration > Site Settings > API.

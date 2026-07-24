@@ -1,0 +1,175 @@
+openapi: 3.0.3
+info:
+  title: TestRail API (v2) Cases Runs API
+  description: 'TestRail is a web-based test case management and QA platform. This document models the TestRail HTTP API v2, which lets teams manage projects, suites, sections, test cases, test runs, test plans, individual tests, results, milestones, configurations, and users.
+
+
+    TestRail runs on a per-customer instance: TestRail Cloud is hosted at https://{instance}.testrail.io (older Cloud instances use .testrail.com), and TestRail Server / Enterprise is self-hosted on your own host. There is no single shared public endpoint.
+
+
+    URL style: every call is routed through TestRail''s `index.php` front controller, so the effective base is `https://{instance}.testrail.io/index.php?/api/v2` and a method looks like `GET /index.php?/api/v2/get_run/1`. The `?/api/v2/...` is a rewritten query string that TestRail treats as the API path. In this document the servers entry carries the `index.php?/api/v2` prefix and each path is the method name plus its id/parent segment.
+
+
+    Authentication is HTTP Basic: the username is your TestRail email and the password is your account password or an API key generated under My Settings. The API must be enabled by an administrator under Administration > Site Settings > API. All payloads are JSON.
+
+
+    Bulk GET endpoints (get_cases, get_runs, get_results, etc.) return up to 250 records per page and accept `limit` (1-250) and `offset` for pagination.'
+  version: '2.0'
+  contact:
+    name: TestRail (IDERA)
+    url: https://www.testrail.com
+  x-transport-note: The real request URL embeds the API version in a query string via index.php, e.g. https://example.testrail.io/index.php?/api/v2/get_run/1 - this is intentional and specific to TestRail, not a normal REST path.
+servers:
+- url: https://{instance}.testrail.io/index.php?/api/v2
+  description: TestRail Cloud (per-instance host; replace {instance} with your subdomain)
+  variables:
+    instance:
+      default: example
+      description: Your TestRail Cloud subdomain.
+- url: https://{host}/index.php?/api/v2
+  description: TestRail Server / Enterprise (self-hosted; replace {host} with your install host)
+  variables:
+    host:
+      default: testrail.example.com
+      description: Hostname of your self-hosted TestRail installation.
+security:
+- basicAuth: []
+tags:
+- name: Runs
+  description: Executions of a set of test cases (test runs).
+paths:
+  /get_runs/{project_id}:
+    get:
+      operationId: getRuns
+      tags:
+      - Runs
+      summary: Get runs
+      description: Returns a list of test runs for a project. Does not include runs that are part of a test plan. Bulk endpoint - returns up to 250 records per page; use limit and offset to page. Supports filters such as is_completed, created_after, and milestone_id.
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - name: is_completed
+        in: query
+        required: false
+        description: 1 to return completed runs only, 0 for active runs only.
+        schema:
+          type: integer
+          enum:
+          - 0
+          - 1
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A list of test runs.
+  /get_run/{run_id}:
+    get:
+      operationId: getRun
+      tags:
+      - Runs
+      summary: Get run
+      description: Returns an existing test run, including pass/fail/blocked counts.
+      parameters:
+      - $ref: '#/components/parameters/RunId'
+      responses:
+        '200':
+          description: The requested test run.
+  /add_run/{project_id}:
+    post:
+      operationId: addRun
+      tags:
+      - Runs
+      summary: Add run
+      description: Creates a new test run in a project. By default it includes all test cases; set include_all to false and pass case_ids to scope the run to specific cases. May be assigned to a user and a milestone.
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        $ref: '#/components/requestBodies/GenericJson'
+      responses:
+        '200':
+          description: The created test run.
+  /update_run/{run_id}:
+    post:
+      operationId: updateRun
+      tags:
+      - Runs
+      summary: Update run
+      description: Updates an existing test run (same fields as add_run except suite_id).
+      parameters:
+      - $ref: '#/components/parameters/RunId'
+      requestBody:
+        $ref: '#/components/requestBodies/GenericJson'
+      responses:
+        '200':
+          description: The updated test run.
+  /close_run/{run_id}:
+    post:
+      operationId: closeRun
+      tags:
+      - Runs
+      summary: Close run
+      description: Closes an existing test run and archives its tests and results. This cannot be undone.
+      parameters:
+      - $ref: '#/components/parameters/RunId'
+      responses:
+        '200':
+          description: The closed test run.
+  /delete_run/{run_id}:
+    post:
+      operationId: deleteRun
+      tags:
+      - Runs
+      summary: Delete run
+      description: Deletes an existing test run.
+      parameters:
+      - $ref: '#/components/parameters/RunId'
+      responses:
+        '200':
+          description: Deletion confirmation.
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 250
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of records to skip for pagination on bulk endpoints.
+      schema:
+        type: integer
+        minimum: 0
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
+    RunId:
+      name: run_id
+      in: path
+      required: true
+      description: The ID of the test run.
+      schema:
+        type: integer
+  requestBodies:
+    GenericJson:
+      required: true
+      description: JSON request body. Field names follow the TestRail API reference for the specific method (see the method's support.testrail.com article).
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication. Username is your TestRail email; password is your account password or an API key generated under My Settings. The API must be enabled by an admin under Administration > Site Settings > API.

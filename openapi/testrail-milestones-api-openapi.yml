@@ -1,0 +1,154 @@
+openapi: 3.0.3
+info:
+  title: TestRail API (v2) Cases Milestones API
+  description: 'TestRail is a web-based test case management and QA platform. This document models the TestRail HTTP API v2, which lets teams manage projects, suites, sections, test cases, test runs, test plans, individual tests, results, milestones, configurations, and users.
+
+
+    TestRail runs on a per-customer instance: TestRail Cloud is hosted at https://{instance}.testrail.io (older Cloud instances use .testrail.com), and TestRail Server / Enterprise is self-hosted on your own host. There is no single shared public endpoint.
+
+
+    URL style: every call is routed through TestRail''s `index.php` front controller, so the effective base is `https://{instance}.testrail.io/index.php?/api/v2` and a method looks like `GET /index.php?/api/v2/get_run/1`. The `?/api/v2/...` is a rewritten query string that TestRail treats as the API path. In this document the servers entry carries the `index.php?/api/v2` prefix and each path is the method name plus its id/parent segment.
+
+
+    Authentication is HTTP Basic: the username is your TestRail email and the password is your account password or an API key generated under My Settings. The API must be enabled by an administrator under Administration > Site Settings > API. All payloads are JSON.
+
+
+    Bulk GET endpoints (get_cases, get_runs, get_results, etc.) return up to 250 records per page and accept `limit` (1-250) and `offset` for pagination.'
+  version: '2.0'
+  contact:
+    name: TestRail (IDERA)
+    url: https://www.testrail.com
+  x-transport-note: The real request URL embeds the API version in a query string via index.php, e.g. https://example.testrail.io/index.php?/api/v2/get_run/1 - this is intentional and specific to TestRail, not a normal REST path.
+servers:
+- url: https://{instance}.testrail.io/index.php?/api/v2
+  description: TestRail Cloud (per-instance host; replace {instance} with your subdomain)
+  variables:
+    instance:
+      default: example
+      description: Your TestRail Cloud subdomain.
+- url: https://{host}/index.php?/api/v2
+  description: TestRail Server / Enterprise (self-hosted; replace {host} with your install host)
+  variables:
+    host:
+      default: testrail.example.com
+      description: Hostname of your self-hosted TestRail installation.
+security:
+- basicAuth: []
+tags:
+- name: Milestones
+  description: Releases and deadlines that runs and plans report toward.
+paths:
+  /get_milestones/{project_id}:
+    get:
+      operationId: getMilestones
+      tags:
+      - Milestones
+      summary: Get milestones
+      description: Returns a list of milestones for a project.
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      - $ref: '#/components/parameters/Limit'
+      - $ref: '#/components/parameters/Offset'
+      responses:
+        '200':
+          description: A list of milestones.
+  /get_milestone/{milestone_id}:
+    get:
+      operationId: getMilestone
+      tags:
+      - Milestones
+      summary: Get milestone
+      description: Returns an existing milestone.
+      parameters:
+      - $ref: '#/components/parameters/MilestoneId'
+      responses:
+        '200':
+          description: The requested milestone.
+  /add_milestone/{project_id}:
+    post:
+      operationId: addMilestone
+      tags:
+      - Milestones
+      summary: Add milestone
+      description: Creates a new milestone in a project.
+      parameters:
+      - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        $ref: '#/components/requestBodies/GenericJson'
+      responses:
+        '200':
+          description: The created milestone.
+  /update_milestone/{milestone_id}:
+    post:
+      operationId: updateMilestone
+      tags:
+      - Milestones
+      summary: Update milestone
+      description: Updates an existing milestone (for example to mark it completed).
+      parameters:
+      - $ref: '#/components/parameters/MilestoneId'
+      requestBody:
+        $ref: '#/components/requestBodies/GenericJson'
+      responses:
+        '200':
+          description: The updated milestone.
+  /delete_milestone/{milestone_id}:
+    post:
+      operationId: deleteMilestone
+      tags:
+      - Milestones
+      summary: Delete milestone
+      description: Deletes an existing milestone.
+      parameters:
+      - $ref: '#/components/parameters/MilestoneId'
+      responses:
+        '200':
+          description: Deletion confirmation.
+components:
+  parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 250
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of records to skip for pagination on bulk endpoints.
+      schema:
+        type: integer
+        minimum: 0
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
+    MilestoneId:
+      name: milestone_id
+      in: path
+      required: true
+      description: The ID of the milestone.
+      schema:
+        type: integer
+  requestBodies:
+    GenericJson:
+      required: true
+      description: JSON request body. Field names follow the TestRail API reference for the specific method (see the method's support.testrail.com article).
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: HTTP Basic authentication. Username is your TestRail email; password is your account password or an API key generated under My Settings. The API must be enabled by an admin under Administration > Site Settings > API.
