@@ -1,0 +1,34 @@
+{
+  "provider": "testrail",
+  "sources": [
+    "testrail-cases-api-openapi.yml",
+    "testrail-configurations-api-openapi.yml",
+    "testrail-milestones-api-openapi.yml",
+    "testrail-plans-api-openapi.yml",
+    "testrail-projects-api-openapi.yml",
+    "testrail-results-api-openapi.yml",
+    "testrail-runs-api-openapi.yml",
+    "testrail-sections-api-openapi.yml",
+    "testrail-suites-api-openapi.yml",
+    "testrail-tests-api-openapi.yml",
+    "testrail-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "testrail-cases-api-openapi.yml",
+    "testrail-configurations-api-openapi.yml",
+    "testrail-milestones-api-openapi.yml",
+    "testrail-plans-api-openapi.yml",
+    "testrail-projects-api-openapi.yml",
+    "testrail-results-api-openapi.yml",
+    "testrail-runs-api-openapi.yml",
+    "testrail-sections-api-openapi.yml",
+    "testrail-suites-api-openapi.yml",
+    "testrail-tests-api-openapi.yml",
+    "testrail-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
