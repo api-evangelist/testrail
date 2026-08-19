@@ -1,0 +1,234 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TestRail API (v2) Cases Plans API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Plans",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get plans",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_plans/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the project."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return (1-250; bulk endpoints default and cap at 250)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination on bulk endpoints."
+              }
+            ]
+          },
+          "docs": "Returns a list of test plans for a project. Bulk endpoint - returns up to 250 records per page."
+        },
+        {
+          "info": {
+            "name": "Get plan",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_plan/:plan_id",
+            "params": [
+              {
+                "name": "plan_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test plan."
+              }
+            ]
+          },
+          "docs": "Returns an existing test plan, including its entries and runs."
+        },
+        {
+          "info": {
+            "name": "Add plan",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_plan/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new test plan in a project, optionally with entries."
+        },
+        {
+          "info": {
+            "name": "Update plan",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/update_plan/:plan_id",
+            "params": [
+              {
+                "name": "plan_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test plan."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing test plan (name, description, milestone)."
+        },
+        {
+          "info": {
+            "name": "Add plan entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_plan_entry/:plan_id",
+            "params": [
+              {
+                "name": "plan_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test plan."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds one or more new test runs to a plan as an entry, optionally expanded across configurations."
+        },
+        {
+          "info": {
+            "name": "Update plan entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/update_plan_entry/:plan_id/:entry_id",
+            "params": [
+              {
+                "name": "plan_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test plan."
+              },
+              {
+                "name": "entry_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates one or more runs in a plan entry."
+        },
+        {
+          "info": {
+            "name": "Delete plan entry",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/delete_plan_entry/:plan_id/:entry_id",
+            "params": [
+              {
+                "name": "plan_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test plan."
+              },
+              {
+                "name": "entry_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes one or more runs from a plan."
+        },
+        {
+          "info": {
+            "name": "Close plan",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/close_plan/:plan_id",
+            "params": [
+              {
+                "name": "plan_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test plan."
+              }
+            ]
+          },
+          "docs": "Closes an existing test plan and archives its runs and results."
+        },
+        {
+          "info": {
+            "name": "Delete plan",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/delete_plan/:plan_id",
+            "params": [
+              {
+                "name": "plan_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test plan."
+              }
+            ]
+          },
+          "docs": "Deletes an existing test plan."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

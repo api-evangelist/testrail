@@ -1,0 +1,140 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TestRail API (v2) Cases Milestones API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Milestones",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get milestones",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_milestones/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the project."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return (1-250; bulk endpoints default and cap at 250)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination on bulk endpoints."
+              }
+            ]
+          },
+          "docs": "Returns a list of milestones for a project."
+        },
+        {
+          "info": {
+            "name": "Get milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_milestone/:milestone_id",
+            "params": [
+              {
+                "name": "milestone_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the milestone."
+              }
+            ]
+          },
+          "docs": "Returns an existing milestone."
+        },
+        {
+          "info": {
+            "name": "Add milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_milestone/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new milestone in a project."
+        },
+        {
+          "info": {
+            "name": "Update milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/update_milestone/:milestone_id",
+            "params": [
+              {
+                "name": "milestone_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the milestone."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing milestone (for example to mark it completed)."
+        },
+        {
+          "info": {
+            "name": "Delete milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/delete_milestone/:milestone_id",
+            "params": [
+              {
+                "name": "milestone_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the milestone."
+              }
+            ]
+          },
+          "docs": "Deletes an existing milestone."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

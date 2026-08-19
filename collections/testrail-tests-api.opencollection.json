@@ -1,0 +1,74 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TestRail API (v2) Cases Tests API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Tests",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get tests",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_tests/:run_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return (1-250; bulk endpoints default and cap at 250)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination on bulk endpoints."
+              }
+            ]
+          },
+          "docs": "Returns a list of tests for a test run. Bulk endpoint - returns up to 250 records per page; use limit and offset to page. Supports a status_id filter."
+        },
+        {
+          "info": {
+            "name": "Get test",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_test/:test_id",
+            "params": [
+              {
+                "name": "test_id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns an existing test (a case instance within a run)."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

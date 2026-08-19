@@ -1,0 +1,704 @@
+{
+  "item": [
+    {
+      "id": "f719c963-fa2f-4845-87fd-a464b793d435",
+      "name": "Runs",
+      "description": {
+        "content": "Executions of a set of test cases (test runs).",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e9c1f65f-d658-432b-9de7-972468318674",
+          "name": "Get runs",
+          "request": {
+            "name": "Get runs",
+            "description": {
+              "content": "Returns a list of test runs for a project. Does not include runs that are part of a test plan. Bulk endpoint - returns up to 250 records per page; use limit and offset to page. Supports filters such as is_completed, created_after, and milestone_id.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "get_runs",
+                ":project_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "is_completed",
+                  "value": "<integer>",
+                  "description": "1 to return completed runs only, 0 for active runs only."
+                },
+                {
+                  "disabled": false,
+                  "key": "limit",
+                  "value": "250",
+                  "description": "Number of records to return (1-250; bulk endpoints default and cap at 250)."
+                },
+                {
+                  "disabled": false,
+                  "key": "offset",
+                  "value": "<integer>",
+                  "description": "Number of records to skip for pagination on bulk endpoints."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "project_id",
+                  "description": "(Required) The ID of the project."
+                },
+                {
+                  "description": "Your TestRail Cloud subdomain.",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "9658953a-f361-4907-b1ab-58b782dec458",
+              "name": "A list of test runs.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_runs",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "is_completed",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "250"
+                    },
+                    {
+                      "key": "offset",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "project_id",
+                      "description": "(Required) The ID of the project."
+                    },
+                    {
+                      "description": "Your TestRail Cloud subdomain.",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8d169d95-c7a8-4a9f-882a-0b00f070a522",
+          "name": "Get run",
+          "request": {
+            "name": "Get run",
+            "description": {
+              "content": "Returns an existing test run, including pass/fail/blocked counts.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "get_run",
+                ":run_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "run_id",
+                  "description": "(Required) The ID of the test run."
+                },
+                {
+                  "description": "Your TestRail Cloud subdomain.",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                }
+              ]
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c1334db7-432c-4e22-9106-305bb8d8c15c",
+              "name": "The requested test run.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "get_run",
+                    ":run_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "run_id",
+                      "description": "(Required) The ID of the test run."
+                    },
+                    {
+                      "description": "Your TestRail Cloud subdomain.",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c087a841-3621-4a4d-9f76-4bbe85ba7da9",
+          "name": "Add run",
+          "request": {
+            "name": "Add run",
+            "description": {
+              "content": "Creates a new test run in a project. By default it includes all test cases; set include_all to false and pass case_ids to scope the run to specific cases. May be assigned to a user and a milestone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "add_run",
+                ":project_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "project_id",
+                  "description": "(Required) The ID of the project."
+                },
+                {
+                  "description": "Your TestRail Cloud subdomain.",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": \"string\",\n  \"key_1\": 3624,\n  \"key_2\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "ea3712a2-269d-4892-9082-f47fe2c5d29b",
+              "name": "The created test run.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "add_run",
+                    ":project_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "project_id",
+                      "description": "(Required) The ID of the project."
+                    },
+                    {
+                      "description": "Your TestRail Cloud subdomain.",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5cce3f3c-173f-42b6-81d5-784fc196377b",
+          "name": "Update run",
+          "request": {
+            "name": "Update run",
+            "description": {
+              "content": "Updates an existing test run (same fields as add_run except suite_id).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "update_run",
+                ":run_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "run_id",
+                  "description": "(Required) The ID of the test run."
+                },
+                {
+                  "description": "Your TestRail Cloud subdomain.",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"key_0\": \"string\",\n  \"key_1\": 3624,\n  \"key_2\": \"string\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dbfaec1b-74d3-4b6d-9671-7bd712d55754",
+              "name": "The updated test run.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "update_run",
+                    ":run_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "run_id",
+                      "description": "(Required) The ID of the test run."
+                    },
+                    {
+                      "description": "Your TestRail Cloud subdomain.",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a1979ff5-3fba-4a90-a327-a14ff26b9ab4",
+          "name": "Close run",
+          "request": {
+            "name": "Close run",
+            "description": {
+              "content": "Closes an existing test run and archives its tests and results. This cannot be undone.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "close_run",
+                ":run_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "run_id",
+                  "description": "(Required) The ID of the test run."
+                },
+                {
+                  "description": "Your TestRail Cloud subdomain.",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4ae680c7-4046-4002-a543-27be734ea1ff",
+              "name": "The closed test run.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "close_run",
+                    ":run_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "run_id",
+                      "description": "(Required) The ID of the test run."
+                    },
+                    {
+                      "description": "Your TestRail Cloud subdomain.",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "8527a667-70c9-47eb-8f75-5dabad4f2d5d",
+          "name": "Delete run",
+          "request": {
+            "name": "Delete run",
+            "description": {
+              "content": "Deletes an existing test run.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "delete_run",
+                ":run_id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "run_id",
+                  "description": "(Required) The ID of the test run."
+                },
+                {
+                  "description": "Your TestRail Cloud subdomain.",
+                  "type": "any",
+                  "value": "{{instance}}",
+                  "key": "instance"
+                }
+              ]
+            },
+            "method": "POST",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fab20ac7-cdd9-4b7c-9885-c6bb857e6aa7",
+              "name": "Deletion confirmation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "delete_run",
+                    ":run_id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "run_id",
+                      "description": "(Required) The ID of the test run."
+                    },
+                    {
+                      "description": "Your TestRail Cloud subdomain.",
+                      "type": "any",
+                      "value": "{{instance}}",
+                      "key": "instance"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: basic",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Basic <credentials>"
+                  }
+                ],
+                "method": "POST",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your TestRail Cloud subdomain.",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "example",
+      "key": "instance"
+    },
+    {
+      "type": "string",
+      "value": "https://{{instance}}.testrail.io/index.php?/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "{{basicAuthUsername}}"
+      },
+      {
+        "key": "password",
+        "value": "{{basicAuthPassword}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d9577979-127b-4133-b138-fdea42b25a8c",
+    "name": "TestRail API (v2) Cases Runs API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "TestRail is a web-based test case management and QA platform. This document models the TestRail HTTP API v2, which lets teams manage projects, suites, sections, test cases, test runs, test plans, individual tests, results, milestones, configurations, and users.\n\nTestRail runs on a per-customer instance: TestRail Cloud is hosted at https://{instance}.testrail.io (older Cloud instances use .testrail.com), and TestRail Server / Enterprise is self-hosted on your own host. There is no single shared public endpoint.\n\nURL style: every call is routed through TestRail's `index.php` front controller, so the effective base is `https://{instance}.testrail.io/index.php?/api/v2` and a method looks like `GET /index.php?/api/v2/get_run/1`. The `?/api/v2/...` is a rewritten query string that TestRail treats as the API path. In this document the servers entry carries the `index.php?/api/v2` prefix and each path is the method name plus its id/parent segment.\n\nAuthentication is HTTP Basic: the username is your TestRail email and the password is your account password or an API key generated under My Settings. The API must be enabled by an administrator under Administration > Site Settings > API. All payloads are JSON.\n\nBulk GET endpoints (get_cases, get_runs, get_results, etc.) return up to 250 records per page and accept `limit` (1-250) and `offset` for pagination.\n\nContact Support:\n Name: TestRail (IDERA)",
+      "type": "text/plain"
+    }
+  }
+}

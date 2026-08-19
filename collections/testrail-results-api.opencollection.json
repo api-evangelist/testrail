@@ -1,0 +1,220 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TestRail API (v2) Cases Results API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Results",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get results for a test",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_results/:test_id",
+            "params": [
+              {
+                "name": "test_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return (1-250; bulk endpoints default and cap at 250)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination on bulk endpoints."
+              }
+            ]
+          },
+          "docs": "Returns a list of test results for a test. Bulk endpoint - returns up to 250 records per page."
+        },
+        {
+          "info": {
+            "name": "Get results for a case in a run",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_results_for_case/:run_id/:case_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              },
+              {
+                "name": "case_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test case."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return (1-250; bulk endpoints default and cap at 250)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination on bulk endpoints."
+              }
+            ]
+          },
+          "docs": "Returns a list of test results for a test run and case combination."
+        },
+        {
+          "info": {
+            "name": "Get results for a run",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_results_for_run/:run_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return (1-250; bulk endpoints default and cap at 250)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination on bulk endpoints."
+              }
+            ]
+          },
+          "docs": "Returns a list of test results for a test run. Bulk endpoint - returns up to 250 records per page; supports created_after and status_id filters."
+        },
+        {
+          "info": {
+            "name": "Add result for a test",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_result/:test_id",
+            "params": [
+              {
+                "name": "test_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new test result, comment, or assignment to a test. Requires a status_id and may include comment, elapsed, defects, and version."
+        },
+        {
+          "info": {
+            "name": "Add result for a case in a run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_result_for_case/:run_id/:case_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              },
+              {
+                "name": "case_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test case."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds a new test result for a test run and case combination."
+        },
+        {
+          "info": {
+            "name": "Add results (bulk, by test)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_results/:run_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds one or more new test results in a single request, keyed by test_id. Recommended for automated suites to report many outcomes at once and reduce rate-limited calls."
+        },
+        {
+          "info": {
+            "name": "Add results (bulk, by case)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_results_for_cases/:run_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Adds one or more new test results in a single request, keyed by case_id. Preferred bulk endpoint for automation frameworks pushing results into a run."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

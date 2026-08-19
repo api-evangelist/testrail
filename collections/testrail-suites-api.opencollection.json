@@ -1,0 +1,128 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TestRail API (v2) Cases Suites API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Suites",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get suites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_suites/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the project."
+              }
+            ]
+          },
+          "docs": "Returns a list of test suites for a project."
+        },
+        {
+          "info": {
+            "name": "Get suite",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_suite/:suite_id",
+            "params": [
+              {
+                "name": "suite_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test suite."
+              }
+            ]
+          },
+          "docs": "Returns an existing test suite."
+        },
+        {
+          "info": {
+            "name": "Add suite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_suite/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new test suite in a project."
+        },
+        {
+          "info": {
+            "name": "Update suite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/update_suite/:suite_id",
+            "params": [
+              {
+                "name": "suite_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test suite."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing test suite."
+        },
+        {
+          "info": {
+            "name": "Delete suite",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/delete_suite/:suite_id",
+            "params": [
+              {
+                "name": "suite_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test suite."
+              }
+            ]
+          },
+          "docs": "Deletes an existing test suite."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

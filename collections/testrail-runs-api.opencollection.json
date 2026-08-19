@@ -1,0 +1,165 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TestRail API (v2) Cases Runs API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Runs",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get runs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_runs/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the project."
+              },
+              {
+                "name": "is_completed",
+                "value": "",
+                "type": "query",
+                "description": "1 to return completed runs only, 0 for active runs only."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return (1-250; bulk endpoints default and cap at 250)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination on bulk endpoints."
+              }
+            ]
+          },
+          "docs": "Returns a list of test runs for a project. Does not include runs that are part of a test plan. Bulk endpoint - returns up to 250 records per page; use limit and offset to page. Supports filters such as is_completed, created_after, and milestone_id."
+        },
+        {
+          "info": {
+            "name": "Get run",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_run/:run_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              }
+            ]
+          },
+          "docs": "Returns an existing test run, including pass/fail/blocked counts."
+        },
+        {
+          "info": {
+            "name": "Add run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_run/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the project."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new test run in a project. By default it includes all test cases; set include_all to false and pass case_ids to scope the run to specific cases. May be assigned to a user and a milestone."
+        },
+        {
+          "info": {
+            "name": "Update run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/update_run/:run_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing test run (same fields as add_run except suite_id)."
+        },
+        {
+          "info": {
+            "name": "Close run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/close_run/:run_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              }
+            ]
+          },
+          "docs": "Closes an existing test run and archives its tests and results. This cannot be undone."
+        },
+        {
+          "info": {
+            "name": "Delete run",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/delete_run/:run_id",
+            "params": [
+              {
+                "name": "run_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test run."
+              }
+            ]
+          },
+          "docs": "Deletes an existing test run."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

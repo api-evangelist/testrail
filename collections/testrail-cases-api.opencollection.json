@@ -1,0 +1,171 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "TestRail API (v2) Cases API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "basic",
+      "username": "{{username}}",
+      "password": "{{password}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Cases",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get cases",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_cases/:project_id",
+            "params": [
+              {
+                "name": "project_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the project."
+              },
+              {
+                "name": "suite_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "section_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to return (1-250; bulk endpoints default and cap at 250)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of records to skip for pagination on bulk endpoints."
+              }
+            ]
+          },
+          "docs": "Returns a list of test cases for a project and optional suite. Bulk endpoint - returns up to 250 records per page; use limit and offset to page. Supports filters such as suite_id, section_id, and updated_after."
+        },
+        {
+          "info": {
+            "name": "Get case",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_case/:case_id",
+            "params": [
+              {
+                "name": "case_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test case."
+              }
+            ]
+          },
+          "docs": "Returns an existing test case."
+        },
+        {
+          "info": {
+            "name": "Add case",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/add_case/:section_id",
+            "params": [
+              {
+                "name": "section_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new test case in a section."
+        },
+        {
+          "info": {
+            "name": "Update case",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/update_case/:case_id",
+            "params": [
+              {
+                "name": "case_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test case."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Updates an existing test case."
+        },
+        {
+          "info": {
+            "name": "Delete case",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/delete_case/:case_id",
+            "params": [
+              {
+                "name": "case_id",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the test case."
+              }
+            ]
+          },
+          "docs": "Deletes an existing test case."
+        },
+        {
+          "info": {
+            "name": "Get case fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_case_fields"
+          },
+          "docs": "Returns a list of available custom fields for test cases."
+        },
+        {
+          "info": {
+            "name": "Get case types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{instance}.testrail.io/index.php?/api/v2/get_case_types"
+          },
+          "docs": "Returns a list of available case types."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
