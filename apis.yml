@@ -177,6 +177,8 @@ apis:
   humanURL: https://support.testrail.com/hc/en-us/articles/7077874763156-Runs
   baseURL: https://{instance}.testrail.io/index.php?/api/v2
   tags:
+  - Project
+  tags_raw:
   - Projects
   properties:
   - type: OpenAPI
@@ -375,6 +377,8 @@ apis:
   humanURL: https://support.testrail.com/hc/en-us/articles/7077874763156-Runs
   baseURL: https://{instance}.testrail.io/index.php?/api/v2
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
