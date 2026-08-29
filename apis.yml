@@ -12,6 +12,18 @@ description: TestRail is a web-based test case management and QA platform (origi
   self-hosted TestRail Server/Enterprise, and uses the distinctive
   index.php?/api/v2/ URL style with HTTP Basic authentication (email plus password
   or API key).
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: freemium
   onboarding: self-serve
