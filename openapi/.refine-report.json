@@ -1,17 +1,7 @@
 {
   "provider": "testrail",
   "sources": [
-    "testrail-cases-api-openapi.yml",
-    "testrail-configurations-api-openapi.yml",
-    "testrail-milestones-api-openapi.yml",
-    "testrail-plans-api-openapi.yml",
-    "testrail-projects-api-openapi.yml",
-    "testrail-results-api-openapi.yml",
-    "testrail-runs-api-openapi.yml",
-    "testrail-sections-api-openapi.yml",
-    "testrail-suites-api-openapi.yml",
-    "testrail-tests-api-openapi.yml",
-    "testrail-users-api-openapi.yml"
+    "_original/testrail-openapi.yml"
   ],
   "outputs": [
     "testrail-cases-api-openapi.yml",
@@ -29,6 +19,22 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "testrail-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "testrail-cases-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-configurations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-milestones-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-plans-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-projects-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-results-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-runs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-sections-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-suites-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-tests-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "testrail-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

@@ -1,19 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: TestRail API (v2) Cases Configurations API
-  description: 'TestRail is a web-based test case management and QA platform. This document models the TestRail HTTP API v2, which lets teams manage projects, suites, sections, test cases, test runs, test plans, individual tests, results, milestones, configurations, and users.
-
-
-    TestRail runs on a per-customer instance: TestRail Cloud is hosted at https://{instance}.testrail.io (older Cloud instances use .testrail.com), and TestRail Server / Enterprise is self-hosted on your own host. There is no single shared public endpoint.
-
-
-    URL style: every call is routed through TestRail''s `index.php` front controller, so the effective base is `https://{instance}.testrail.io/index.php?/api/v2` and a method looks like `GET /index.php?/api/v2/get_run/1`. The `?/api/v2/...` is a rewritten query string that TestRail treats as the API path. In this document the servers entry carries the `index.php?/api/v2` prefix and each path is the method name plus its id/parent segment.
-
-
-    Authentication is HTTP Basic: the username is your TestRail email and the password is your account password or an API key generated under My Settings. The API must be enabled by an administrator under Administration > Site Settings > API. All payloads are JSON.
-
-
-    Bulk GET endpoints (get_cases, get_runs, get_results, etc.) return up to 250 records per page and accept `limit` (1-250) and `offset` for pagination.'
+  title: TestRail API (v2) Configurations API
+  description: TestRail is a web-based test case management and QA platform.
   version: '2.0'
   contact:
     name: TestRail (IDERA)
