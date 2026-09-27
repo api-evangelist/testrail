@@ -155,23 +155,7 @@ paths:
         '200':
           description: Deletion confirmation.
 components:
-  requestBodies:
-    GenericJson:
-      required: true
-      description: JSON request body. Field names follow the TestRail API reference for the specific method (see the method's support.testrail.com article).
-      content:
-        application/json:
-          schema:
-            type: object
-            additionalProperties: true
   parameters:
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The ID of the project.
-      schema:
-        type: integer
     Limit:
       name: limit
       in: query
@@ -190,6 +174,13 @@ components:
       schema:
         type: integer
         minimum: 0
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
     PlanId:
       name: plan_id
       in: path
@@ -197,6 +188,15 @@ components:
       description: The ID of the test plan.
       schema:
         type: integer
+  requestBodies:
+    GenericJson:
+      required: true
+      description: JSON request body. Field names follow the TestRail API reference for the specific method (see the method's support.testrail.com article).
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
   securitySchemes:
     basicAuth:
       type: http

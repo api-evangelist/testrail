@@ -58,14 +58,6 @@ paths:
           description: The requested test.
 components:
   parameters:
-    Offset:
-      name: offset
-      in: query
-      required: false
-      description: Number of records to skip for pagination on bulk endpoints.
-      schema:
-        type: integer
-        minimum: 0
     RunId:
       name: run_id
       in: path
@@ -83,6 +75,14 @@ components:
         minimum: 1
         maximum: 250
         default: 250
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of records to skip for pagination on bulk endpoints.
+      schema:
+        type: integer
+        minimum: 0
   securitySchemes:
     basicAuth:
       type: http
