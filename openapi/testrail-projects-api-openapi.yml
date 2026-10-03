@@ -96,17 +96,26 @@ paths:
         '200':
           description: Deletion confirmation.
 components:
+  responses:
+    BadRequest:
+      description: Invalid or unknown identifier or parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Authenticated user lacks permission (for example not an administrator).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid credentials (HTTP Basic).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    Limit:
-      name: limit
-      in: query
-      required: false
-      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 250
     Offset:
       name: offset
       in: query
@@ -122,32 +131,16 @@ components:
       description: The ID of the project.
       schema:
         type: integer
-  responses:
-    Forbidden:
-      description: Authenticated user lacks permission (for example not an administrator).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid credentials (HTTP Basic).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: Invalid or unknown identifier or parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  schemas:
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-          description: Human-readable error message returned by TestRail.
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 250
   requestBodies:
     GenericJson:
       required: true
@@ -157,6 +150,13 @@ components:
           schema:
             type: object
             additionalProperties: true
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          description: Human-readable error message returned by TestRail.
   securitySchemes:
     basicAuth:
       type: http

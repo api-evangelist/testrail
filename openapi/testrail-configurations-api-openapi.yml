@@ -71,6 +71,14 @@ paths:
         '200':
           description: The created configuration.
 components:
+  parameters:
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
   requestBodies:
     GenericJson:
       required: true
@@ -80,14 +88,6 @@ components:
           schema:
             type: object
             additionalProperties: true
-  parameters:
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The ID of the project.
-      schema:
-        type: integer
   securitySchemes:
     basicAuth:
       type: http

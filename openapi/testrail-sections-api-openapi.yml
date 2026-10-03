@@ -93,6 +93,14 @@ paths:
         '200':
           description: Deletion confirmation.
 components:
+  parameters:
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
   requestBodies:
     GenericJson:
       required: true
@@ -102,14 +110,6 @@ components:
           schema:
             type: object
             additionalProperties: true
-  parameters:
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The ID of the project.
-      schema:
-        type: integer
   securitySchemes:
     basicAuth:
       type: http
