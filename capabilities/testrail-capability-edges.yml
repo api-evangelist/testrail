@@ -1,0 +1,79 @@
+slug: testrail
+provider: TestRail
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 7
+edges:
+- tag: Cases
+  spec_file: testrail-cases-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.95
+  evidence: POST /add_case/{section_id} "Add case"; GET /get_case_types "Get case types"; "TestRail is
+    a web-based test case management and QA platform."
+  reason: Operations create, update, delete and read test cases and case field metadata — test asset management
+    under Software Quality Engineering.
+- tag: Results
+  spec_file: testrail-results-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.95
+  evidence: POST /add_results_for_cases/{run_id} addResultsForCases Add results (bulk, by case)
+  reason: Recording and retrieving pass/fail test results for test cases and runs is squarely automated
+    test suite stewardship and defect-relevant quality engineering.
+- tag: Runs
+  spec_file: testrail-runs-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.93
+  evidence: POST /add_run/{project_id} addRun Add run; POST /close_run/{run_id} closeRun
+  reason: Test run lifecycle management in a QA platform — execution of test suites, i.e. Software Quality
+    Engineering.
+- tag: Suites
+  spec_file: testrail-suites-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.9
+  evidence: POST /add_suite/{project_id} addSuite Add suite
+  reason: Test suite CRUD in a test case management platform is direct automated/manual test suite stewardship
+    under Software Quality Engineering.
+- tag: Tests
+  spec_file: testrail-tests-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.9
+  evidence: GET /get_tests/{run_id} getTests Get tests
+  reason: Retrieval of the individual tests belonging to a test run — core QA test execution data in a
+    test management platform.
+- tag: Plans
+  spec_file: testrail-plans-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.88
+  evidence: POST /add_plan/{project_id} addPlan Add plan; POST /add_plan_entry/{plan_id}
+  reason: TestRail test plans group test runs for QA execution; the operations manage the lifecycle of
+    test plans, which is test strategy/suite stewardship under Software Quality Engineering.
+- tag: Sections
+  spec_file: testrail-sections-api-openapi.yml
+  capability_id: BC-4200.50
+  capability_id_l1: BC-4200
+  capability_name: Software Quality Engineering
+  confidence: 0.72
+  evidence: POST /add_section/{project_id} addSection
+  reason: Sections organise test cases within suites in TestRail; structural stewardship of the test case
+    repository, part of test strategy/suite management.

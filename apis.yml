@@ -419,6 +419,9 @@ apis:
   - type: APIReference
     url: https://support.testrail.com/hc/en-us/articles/7077723976084-Milestones
 common:
+- type: CapabilityMap
+  url: capabilities/testrail-capability-edges.yml
+  name: TestRail Business Capability Map
 - type: AgenticAccess
   url: agentic-access/testrail-agentic-access.yml
 - type: Authentication
