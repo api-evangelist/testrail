@@ -136,6 +136,23 @@ paths:
           description: The created results.
 components:
   parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 250
+    CaseId:
+      name: case_id
+      in: path
+      required: true
+      description: The ID of the test case.
+      schema:
+        type: integer
     RunId:
       name: run_id
       in: path
@@ -151,23 +168,6 @@ components:
       schema:
         type: integer
         minimum: 0
-    CaseId:
-      name: case_id
-      in: path
-      required: true
-      description: The ID of the test case.
-      schema:
-        type: integer
-    Limit:
-      name: limit
-      in: query
-      required: false
-      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 250
   requestBodies:
     GenericJson:
       required: true

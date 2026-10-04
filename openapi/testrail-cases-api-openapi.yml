@@ -128,28 +128,6 @@ paths:
           description: A list of case types.
 components:
   parameters:
-    Offset:
-      name: offset
-      in: query
-      required: false
-      description: Number of records to skip for pagination on bulk endpoints.
-      schema:
-        type: integer
-        minimum: 0
-    CaseId:
-      name: case_id
-      in: path
-      required: true
-      description: The ID of the test case.
-      schema:
-        type: integer
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The ID of the project.
-      schema:
-        type: integer
     Limit:
       name: limit
       in: query
@@ -160,6 +138,28 @@ components:
         minimum: 1
         maximum: 250
         default: 250
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
+    CaseId:
+      name: case_id
+      in: path
+      required: true
+      description: The ID of the test case.
+      schema:
+        type: integer
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of records to skip for pagination on bulk endpoints.
+      schema:
+        type: integer
+        minimum: 0
   requestBodies:
     GenericJson:
       required: true

@@ -96,41 +96,7 @@ paths:
         '200':
           description: Deletion confirmation.
 components:
-  responses:
-    BadRequest:
-      description: Invalid or unknown identifier or parameters.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Authenticated user lacks permission (for example not an administrator).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid credentials (HTTP Basic).
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    Offset:
-      name: offset
-      in: query
-      required: false
-      description: Number of records to skip for pagination on bulk endpoints.
-      schema:
-        type: integer
-        minimum: 0
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The ID of the project.
-      schema:
-        type: integer
     Limit:
       name: limit
       in: query
@@ -141,6 +107,21 @@ components:
         minimum: 1
         maximum: 250
         default: 250
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of records to skip for pagination on bulk endpoints.
+      schema:
+        type: integer
+        minimum: 0
   requestBodies:
     GenericJson:
       required: true
@@ -150,6 +131,25 @@ components:
           schema:
             type: object
             additionalProperties: true
+  responses:
+    Unauthorized:
+      description: Missing or invalid credentials (HTTP Basic).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Authenticated user lacks permission (for example not an administrator).
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: Invalid or unknown identifier or parameters.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object

@@ -115,6 +115,23 @@ paths:
           description: Deletion confirmation.
 components:
   parameters:
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 250
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
     RunId:
       name: run_id
       in: path
@@ -130,23 +147,6 @@ components:
       schema:
         type: integer
         minimum: 0
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The ID of the project.
-      schema:
-        type: integer
-    Limit:
-      name: limit
-      in: query
-      required: false
-      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 250
   requestBodies:
     GenericJson:
       required: true
