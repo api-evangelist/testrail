@@ -48,7 +48,7 @@ tags:
 - Testing
 - Test Automation
 created: '2026-07-11'
-modified: '2026-07-11'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: testrail:testrail-cases-api
@@ -419,6 +419,10 @@ apis:
   - type: APIReference
     url: https://support.testrail.com/hc/en-us/articles/7077723976084-Milestones
 common:
+- url: https://www.testrail.com/blog/
+  type: Blog
+- url: https://www.testrail.com/blog/feed/
+  type: BlogRSS
 - type: CapabilityMap
   url: capabilities/testrail-capability-edges.yml
   name: TestRail Business Capability Map
