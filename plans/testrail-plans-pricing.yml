@@ -133,3 +133,43 @@ plans:
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - seat
+  units:
+  - seat
+  plans:
+  - name: Professional Cloud
+    access: paid
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: Enterprise Cloud
+    access: paid
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
+  - name: TestRail Server (Self-Hosted)
+    access: paid
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - year
+  - name: Free Trial
+    access: trial
+    model: seat
+    model_how: derived
+    units:
+    - seat
+    periods:
+    - month
