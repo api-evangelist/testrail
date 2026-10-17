@@ -136,6 +136,28 @@ paths:
           description: The created results.
 components:
   parameters:
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of records to skip for pagination on bulk endpoints.
+      schema:
+        type: integer
+        minimum: 0
+    RunId:
+      name: run_id
+      in: path
+      required: true
+      description: The ID of the test run.
+      schema:
+        type: integer
+    CaseId:
+      name: case_id
+      in: path
+      required: true
+      description: The ID of the test case.
+      schema:
+        type: integer
     Limit:
       name: limit
       in: query
@@ -146,28 +168,6 @@ components:
         minimum: 1
         maximum: 250
         default: 250
-    CaseId:
-      name: case_id
-      in: path
-      required: true
-      description: The ID of the test case.
-      schema:
-        type: integer
-    RunId:
-      name: run_id
-      in: path
-      required: true
-      description: The ID of the test run.
-      schema:
-        type: integer
-    Offset:
-      name: offset
-      in: query
-      required: false
-      description: Number of records to skip for pagination on bulk endpoints.
-      schema:
-        type: integer
-        minimum: 0
   requestBodies:
     GenericJson:
       required: true

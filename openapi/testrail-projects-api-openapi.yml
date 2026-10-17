@@ -96,50 +96,15 @@ paths:
         '200':
           description: Deletion confirmation.
 components:
-  parameters:
-    Limit:
-      name: limit
-      in: query
-      required: false
-      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 250
-        default: 250
-    ProjectId:
-      name: project_id
-      in: path
-      required: true
-      description: The ID of the project.
-      schema:
-        type: integer
-    Offset:
-      name: offset
-      in: query
-      required: false
-      description: Number of records to skip for pagination on bulk endpoints.
-      schema:
-        type: integer
-        minimum: 0
-  requestBodies:
-    GenericJson:
-      required: true
-      description: JSON request body. Field names follow the TestRail API reference for the specific method (see the method's support.testrail.com article).
-      content:
-        application/json:
-          schema:
-            type: object
-            additionalProperties: true
   responses:
-    Unauthorized:
-      description: Missing or invalid credentials (HTTP Basic).
+    Forbidden:
+      description: Authenticated user lacks permission (for example not an administrator).
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Authenticated user lacks permission (for example not an administrator).
+    Unauthorized:
+      description: Missing or invalid credentials (HTTP Basic).
       content:
         application/json:
           schema:
@@ -157,6 +122,41 @@ components:
         error:
           type: string
           description: Human-readable error message returned by TestRail.
+  requestBodies:
+    GenericJson:
+      required: true
+      description: JSON request body. Field names follow the TestRail API reference for the specific method (see the method's support.testrail.com article).
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+  parameters:
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of records to skip for pagination on bulk endpoints.
+      schema:
+        type: integer
+        minimum: 0
+    ProjectId:
+      name: project_id
+      in: path
+      required: true
+      description: The ID of the project.
+      schema:
+        type: integer
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 250
+        default: 250
   securitySchemes:
     basicAuth:
       type: http

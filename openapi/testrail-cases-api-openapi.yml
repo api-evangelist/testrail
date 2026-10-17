@@ -128,16 +128,14 @@ paths:
           description: A list of case types.
 components:
   parameters:
-    Limit:
-      name: limit
+    Offset:
+      name: offset
       in: query
       required: false
-      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
+      description: Number of records to skip for pagination on bulk endpoints.
       schema:
         type: integer
-        minimum: 1
-        maximum: 250
-        default: 250
+        minimum: 0
     ProjectId:
       name: project_id
       in: path
@@ -152,14 +150,16 @@ components:
       description: The ID of the test case.
       schema:
         type: integer
-    Offset:
-      name: offset
+    Limit:
+      name: limit
       in: query
       required: false
-      description: Number of records to skip for pagination on bulk endpoints.
+      description: Number of records to return (1-250; bulk endpoints default and cap at 250).
       schema:
         type: integer
-        minimum: 0
+        minimum: 1
+        maximum: 250
+        default: 250
   requestBodies:
     GenericJson:
       required: true
