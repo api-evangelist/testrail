@@ -59,3 +59,16 @@
     builder: Fivetran
   status: not-a-workflow
   arazzo: null
+- slug: testrail-atlassian-own
+  label: Atlassian (own)
+  partner: atlassian
+  partner_name: Atlassian (own)
+  category: Custom fields
+  type: marketplace
+  marketplace: own
+  channel: partner-built
+  evidence: https://marketplace.atlassian.com/vendors/37811/gurock-software-gmbh
+  source: edge
+  relationship: platform-app
+  status: not-a-workflow
+  arazzo: null
